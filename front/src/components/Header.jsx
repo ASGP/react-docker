@@ -1,14 +1,27 @@
-import React from 'react'
+import React from "react";
+import { FaUserCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-const Header = ({title}) => {
-  return (
-    <div>
-      <header className='bg-gray-700 bg-opacity-40 shadow-md border-b border-gray-600'></header>
-      <div className='max-w-7x1 mx-auto py-4 sm:px-6 lg:px-8 bg-blue-500'>
-        <h1 className='text-2x1 font-semibold text-white'>{title}</h1>
-      </div>
-    </div>
-  )
-}
+const Header = ({ title }) => {
+	// Manually set the username for now
+	const userName = "John Doe";
 
-export default Header
+	return (
+		<header className='bg-gray-700 bg-opacity-20 backdrop-blur-md border-b border-blue-900'>
+			<div className='py-4 px-5 flex justify-between items-center'>
+				{/* Title */}
+				<h1 className='text-2xl font-semibold text-white'>{title}</h1>
+
+				{/* User Info */}
+				<div className='flex items-center space-x-2'>
+					<span className='text-white text-sm font-medium'>{userName}</span>
+					<Link to='/profile'>
+						<FaUserCircle size={28} className='text-white cursor-pointer' />
+					</Link>
+				</div>
+			</div>
+		</header>
+	);
+};
+
+export default Header;

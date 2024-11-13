@@ -1,78 +1,59 @@
 import React, { useState } from "react";
-import { GrOverview } from "react-icons/gr";
-import { FaSearch, FaUsers, FaShoppingCart, FaShoppingBag, FaDollarSign } from "react-icons/fa";
 import { AiOutlineMenu } from "react-icons/ai";
+import { FaUsers, FaShoppingBag, FaDollarSign, FaShoppingCart } from "react-icons/fa";
+import { GrOverview } from "react-icons/gr";
+import { FiTrendingUp } from "react-icons/fi";
+import { MdSettings } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
-    // Function to toggle the sidebar
-    const toggleSidebar = () => {
-        setIsSidebarOpen(!isSidebarOpen);
-    };
+const SIDEBAR_ITEMS = [
+	{ name: "Overview", icon: <GrOverview size={20} />, href: "/" },
+	{ name: "Products", icon: <FaShoppingBag size={20} />, href: "/products" },
+	{ name: "Users", icon: <FaUsers size={20} />, href: "/users" },
+	{ name: "Sales", icon: <FaDollarSign size={20} />, href: "/sales" },
+	{ name: "Orders", icon: <FaShoppingCart size={20} />, href: "/orders" },
+	{ name: "Analytics", icon: <FiTrendingUp size={20} />, href: "/analytics" },
+	{ name: "Settings", icon: <MdSettings size={20} />, href: "/settings" },
+];
 
-    return (
-        <div
-            className={`${isSidebarOpen ? "w-60" : "w-20"
-                } transition-all bg-gray-800 h-screen text-white p-4 fixed left-0 top-0 z-10`}
-        >
-            {/* Toggle button (Menu icon) */}
-            <div className="flex justify-between items-center mb-6 ml-2">
-                <AiOutlineMenu
-                    size={30}
-                    onClick={toggleSidebar}
-                    className="cursor-pointer rounded p-1 hover:bg-gray-600 hover:text-gray-300 transition-colors"
-                />
-            </div>
+const Sidebar = () => {
+	const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-            {/* Sidebar links with icons */}
-            <div className="flex flex-col space-y-12">
-                <Link to="/" className="flex mt-10 hover:bg-gray-100 hover:text-black transition-colors p-2 rounded">
-                    <div className="ml-1">
-                        <GrOverview size={25} />
-                    </div>
-                    <div className={`ml-7 text-xl transition-opacity ${isSidebarOpen ? "opacity-100" : "opacity-0"}`}>
-                        <span>Overview</span>
-                    </div>
-                </Link>
+	return (
+		<div
+			className={`relative z-10 transition-all duration-300 flex-shrink-0 ${
+				isSidebarOpen ? "w-60" : "w-20"
+			}`}
+		>
+			<div className='h-full bg-gray-800 p-4 flex flex-col border-r border-gray-700'>
+				{/* Toggle Button */}
+				<button
+					onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+					className='p-2 ml-1 rounded-md hover:bg-gray-500 max-w-fit'
+				>
+					<AiOutlineMenu size={24} />
+				</button>
 
-                <Link to="/products" className="flex mt-10 hover:bg-gray-100 hover:text-black transition-colors p-2 rounded">
-                    <div className=" ml-1">
-                        <FaShoppingBag size={25} />
-                    </div>
-                    <div className={`ml-7 text-xl transition-opacity ${isSidebarOpen ? "opacity-100" : "opacity-0"}`}>
-                        <span>Products</span>
-                    </div>
-                </Link>
-
-                <Link to="/search" className="flex items-center mt-10 hover:bg-gray-100 hover:text-black transition-colors p-2 rounded">
-                    <div className="ml-1">
-                        <FaShoppingCart size={25} />
-                    </div>
-                    <div className={`ml-7 text-xl transition-opacity ${isSidebarOpen ? "opacity-100" : "opacity-0"}`}>
-                        <span>Orders</span>
-                    </div>
-                </Link>
-
-                <Link to="/users" className="flex items-center mt-10 hover:bg-gray-100 hover:text-black transition-colors p-2 rounded">
-                    <div className="ml-1">
-                        <FaUsers size={25} />
-                    </div>
-                    <div className={`ml-7 text-xl transition-opacity ${isSidebarOpen ? "opacity-100" : "opacity-0"}`}>
-                        <span>Users</span>
-                    </div>
-                </Link>
-
-                <Link to="/settings" className="flex items-center mt-10 hover:bg-gray-100 hover:text-black transition-colors p-2 rounded">
-                    <div className="ml-1">
-                        <FaDollarSign size={25} />
-                    </div>
-                    <div className={`ml-7 text-xl transition-opacity ${isSidebarOpen ? "opacity-100" : "opacity-0"}`}>
-                        <span>Sales</span>
-                    </div>
-                </Link>
-            </div>
-        </div>
-    );
+				{/* Navigation Links */}
+				<nav className='mt-8 flex-grow'>
+					{SIDEBAR_ITEMS.map((item) => (
+						<Link key={item.href} to={item.href}>
+							<div
+								className='flex items-center p-4 text-m font-medium rounded-lg hover:bg-gray-700 mb-2'
+							>
+								{/* Icon */}
+								<div className='min-w-[20px]'>{item.icon}</div>
+								{/* Name */}
+								{isSidebarOpen && (
+									<span className='ml-4 whitespace-nowrap'>{item.name}</span>
+								)}
+							</div>
+						</Link>
+					))}
+				</nav>
+			</div>
+		</div>
+	);
 };
 
 export default Sidebar;
